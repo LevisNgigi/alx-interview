@@ -1,28 +1,23 @@
 #!/usr/bin/python3
-"""Rotates a 2D matrix"""
+"""Rotates 2-D matrix:"""
 
 
-def rotate_2d_matrix(matrix):
-    """
-       Rotates 2D matrix 90 degrees clockwise
-       Matrix is edited in-place
-       args:
-          matrix
-    """
-    left, right = 0, len(matrix) - 1
+def rotate_2d_matrix(m):
+    """Rotates in-place"""
+    n = len(m)
+    temp1, temp2 = 0, 0
 
-    while left < right:
-        for i in range(right - left):
-            top, bottom = left, right
-            # save topleft  value
-            topLeft = matrix[top][left + i]
-            # move bottom left to top left
-            matrix[top][left + i] = matrix[bottom - i][left]
-            # move bottom right to bottom left
-            matrix[bottom - i][left] = matrix[bottom][right - i]
-            # move top right to bottom right
-            matrix[bottom][right - i] = matrix[top + i][right]
-            # move top left to top right
-            matrix[top + i][right] = topLeft
-        right -= 1
-        left += 1
+    for j in range(0, len(m) // 2 + 1):
+        for i in range(j, n - 1):
+            # For r in first row, put in same position in col from back
+            temp1 = m[i][n - 1]
+            m[i][n - 1] = m[j][i]
+            # put that temp1 in reverse position in row from bottom
+            temp2 = m[n - 1][n - 1 - i + j]
+            m[n - 1][n - 1 - i + j] = temp1
+            # put that temp2 in same position in col from front
+            temp1 = m[n - 1 - i + j][j]
+            m[n - 1 - i + j][j] = temp2
+            # put that temp1 in reverse position in row from top
+            m[j][i] = temp1
+        n -= 1
